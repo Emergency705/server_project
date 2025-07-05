@@ -1,13 +1,12 @@
 package emergency.server.service.userService;
 
 import emergency.server.converter.UserConvertor;
-import emergency.server.domain.Region;
 import emergency.server.domain.User;
+import emergency.server.domain.enums.Region;
 import emergency.server.dto.UserRequestDto;
 import emergency.server.dto.UserResponseDto;
 import emergency.server.global.common.apiPayload.code.status.ErrorStatus;
 import emergency.server.global.common.apiPayload.exception.handler.ErrorHandler;
-import emergency.server.repository.RegionRepository;
 import emergency.server.repository.UserRepository;
 import emergency.server.validation.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,14 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Base64;
-import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor
 public class UserQueryServiceImpl implements UserQueryService{
 
     private final UserRepository userRepository;
-    private final RegionRepository regionRepository;
     private final JwtUtil jwtUtil;
 
     @Override
@@ -69,17 +66,19 @@ public class UserQueryServiceImpl implements UserQueryService{
             user.setDisableType(updateRequest.getDisableType());
         }
 
-        if (updateRequest.getRegionId() != null) {
-            Region region = regionRepository.findById(updateRequest.getRegionId())
-                    .orElseThrow(() -> new ErrorHandler(ErrorStatus.REGION_NOT_FOUND));
-            user.setRegion(region);
+        if (updateRequest.getRegion() != null) {
+            user.setRegion(updateRequest.getRegion());
         }
 
         if (updateRequest.getProfileImage() != null) {
-            if (isValidBase64Image(updateRequest.getProfileImage())) {
-                user.setProfileImage(updateRequest.getProfileImage());
+            if (StringUtils.hasText(updateRequest.getProfileImage())) {
+                if (isValidBase64Image(updateRequest.getProfileImage())) {
+                    user.setProfileImage(updateRequest.getProfileImage());
+                } else {
+                    throw new ErrorHandler(ErrorStatus.INVALID_IMAGE_FORMAT);
+                }
             } else {
-                throw new ErrorHandler(ErrorStatus.INVALID_IMAGE_FORMAT);
+                user.setProfileImage(null);
             }
         }
 
@@ -121,7 +120,7 @@ public class UserQueryServiceImpl implements UserQueryService{
 
     private boolean isValidBase64Image(String base64Image) {
         if (!StringUtils.hasText(base64Image)) {
-            return false;
+            return true;
         }
 
         try {

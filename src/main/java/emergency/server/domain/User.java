@@ -1,9 +1,9 @@
 package emergency.server.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import emergency.server.domain.enums.DisableType;
 import emergency.server.domain.enums.HardNess;
 import emergency.server.domain.enums.Disable;
+import emergency.server.domain.enums.Region;
 import emergency.server.global.data.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,8 +39,8 @@ public class User extends BaseEntity {
     @Column(name = "disable", length = 20)
     private Disable disable;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_id", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "region", length = 20)
     private Region region;
 
     @Lob

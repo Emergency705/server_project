@@ -1,6 +1,5 @@
 package emergency.server.converter;
 
-import emergency.server.domain.Region;
 import emergency.server.domain.User;
 import emergency.server.dto.UserRequestDto;
 import emergency.server.dto.UserResponseDto;
@@ -16,7 +15,7 @@ public class UserConvertor {
                 .build();
     }
 
-    public static User toUser(UserRequestDto.JoinDto request, Region region) {
+    public static User toUser(UserRequestDto.JoinDto request) {
         return User.builder()
                 .name(request.getName())
                 .loginId(request.getLoginId())
@@ -25,7 +24,7 @@ public class UserConvertor {
                 .disableType(request.getDisableType())
                 .hardness(request.getHardness())
                 .disable(request.getDisable())
-                .region(region)
+                .region(request.getRegion())
                 .profileImage(request.getProfileImage())
                 .build();
     }
@@ -46,7 +45,7 @@ public class UserConvertor {
                 .disableTypeName(user.getDisableType().getName())
                 .hardnessName(user.getHardness().getName())
                 .disableName(user.getDisable().getName())
-                .regionName(user.getRegion().getName())
+                .regionName(user.getRegion().getKoreanName())
                 .profileImage(user.getProfileImage())
                 .build();
     }

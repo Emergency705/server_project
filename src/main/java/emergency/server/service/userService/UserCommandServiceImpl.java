@@ -1,35 +1,38 @@
 package emergency.server.service.userService;
 
 import emergency.server.converter.UserConvertor;
-import emergency.server.domain.Region;
 import emergency.server.domain.User;
 import emergency.server.dto.UserRequestDto;
 import emergency.server.dto.UserResponseDto;
 import emergency.server.global.common.apiPayload.code.status.ErrorStatus;
 import emergency.server.global.common.apiPayload.exception.handler.ErrorHandler;
-import emergency.server.repository.RegionRepository;
 import emergency.server.validation.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import emergency.server.repository.UserRepository;
+
+import java.util.Base64;
 
 @Service
 @RequiredArgsConstructor
 public class UserCommandServiceImpl implements UserCommandService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RegionRepository regionRepository;
     private final JwtUtil jwtUtil;
 
     @Override
     @Transactional
     public User joinUser(UserRequestDto.JoinDto request) {
-        Region region = regionRepository.findById(request.getRegionId())
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 지역입니다."));
+        if (StringUtils.hasText(request.getProfileImage())) {
+            if (!isValidBase64Image(request.getProfileImage())) {
+                throw new ErrorHandler(ErrorStatus.INVALID_IMAGE_FORMAT);
+            }
+        }
 
-        User newUser = UserConvertor.toUser(request, region);
+        User newUser = UserConvertor.toUser(request);
 
         String encodedPassword = passwordEncoder.encode(request.getPassword());
         newUser.encodePassword(encodedPassword);
@@ -51,5 +54,40 @@ public class UserCommandServiceImpl implements UserCommandService{
                 user.getUserId(),
                 accessToken
         );
+    }
+
+    private boolean isValidBase64Image(String base64Image) {
+        if (!StringUtils.hasText(base64Image)) {
+            return true;
+        }
+
+        try {
+            String base64Data = base64Image;
+            if (base64Image.contains(",")) {
+                String[] parts = base64Image.split(",");
+                if (parts.length != 2) {
+                    return false;
+                }
+
+                String mimeTypePart = parts[0];
+                if (!mimeTypePart.matches("data:image/(jpeg|jpg|png|gif|webp);base64")) {
+                    return false;
+                }
+
+                base64Data = parts[1];
+            }
+
+            Base64.getDecoder().decode(base64Data);
+
+            int maxSizeBytes = 5 * 1024 * 1024; // 5MB
+            byte[] decodedBytes = Base64.getDecoder().decode(base64Data);
+            if (decodedBytes.length > maxSizeBytes) {
+                return false;
+            }
+
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 }
