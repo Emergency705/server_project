@@ -6,7 +6,10 @@ import emergency.server.dtos.UserRequestDto;
 import emergency.server.dtos.UserResponseDto;
 import emergency.server.global.common.apiPayload.ApiResponse;
 import emergency.server.service.userService.UserCommandService;
+import emergency.server.service.userService.UserQueryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserCommandService userCommandService;
+    private final UserQueryService userQueryService;
 
     @PostMapping("/join")
     @Operation(summary = "회원 가입 API", description = "회원 가입을 진행합니다.")
@@ -25,9 +29,12 @@ public class UserController {
         return ApiResponse.onSuccess(UserConvertor.toJoinResultDTO(user));
     }
 
-    @GetMapping("/") // 마이페이지 조회
-    public ApiResponse<?> user() {
-        return null;
+    @GetMapping("/info")
+    @Operation(summary = "내 정보 조회 API ",
+            description = "내 정보를 조회합니다",
+            security = { @SecurityRequirement(name = "JWT TOKEN") })
+    public ApiResponse<UserResponseDto.UserInfoDto> getMyInfo(HttpServletRequest request) {
+        return ApiResponse.onSuccess(userQueryService.getCurrentUser(request));
     }
 
     @PatchMapping("/")

@@ -26,4 +26,22 @@ public class UserConvertor {
                 .region(region)
                 .build();
     }
+
+    public static UserResponseDto.LoginResultDTO toLoginResultDTO(Long memberId, String accessToken) {
+        return UserResponseDto.LoginResultDTO.builder()
+                .memberId(memberId)
+                .accessToken(accessToken)
+                .build();
+    }
+
+    public static UserResponseDto.UserInfoDto toUserInfoDto(User user) {
+        return UserResponseDto.UserInfoDto.builder()
+                .userId(user.getUserId())
+                .name(user.getName())
+                .loginId(user.getLoginId())
+                .birth(user.getBirth())
+                .disableType(user.getDisableType())
+                .regionName(user.getRegion().getName())
+                .build();
+    }
 }
