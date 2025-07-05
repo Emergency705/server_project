@@ -1,6 +1,22 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/umc8th
-    username: root
-    password: 53099035
+  profiles:
+    active: ["prod"]
+
+  sql:
+    init:
+      mode: never
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        show_sql: false
+        format_sql: true
+        use_sql_comments: false
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        hbm2ddl:
+          auto: none
+        default_batch_fetch_size: 100
