@@ -22,7 +22,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class FundingService {
 
     private final FundingRepository fundingRepository;
@@ -33,6 +32,7 @@ public class FundingService {
      * 아이템 목록 조회
      * @return List<ItemDto.ListResponse>
      */
+    @Transactional(readOnly = true)
     public List<ItemDto.ListResponse> getItemList() {
         List<Item> items = itemRepository.findAll();
         List<ItemDto.ListResponse> dtos = items.stream()
@@ -54,6 +54,7 @@ public class FundingService {
      * @param id 아이템 ID
      * @return ItemDto.Response
      */
+    @Transactional(readOnly = true)
     public ItemDto.Response getItem(Long id) {
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Item not found with id: " + id));
@@ -65,9 +66,10 @@ public class FundingService {
         return ItemConverter.toResponse(item, currentCount);
     }
 
+    @Transactional
     public void saveFunding(FundingDto.SaveRequest dto, UserDetails user) {
         // TODO : 허유진 - 시큐리티 uesr detail 머지 이후 수정
-        User userEntity = userRepository.findByName(user.getUsername());
+        User userEntity = userRepository.findByLoginId(user.getUsername()).orElseThrow(() -> new RuntimeException("사용자를 조회할 수 없습니다."));
         Item itemEntity = itemRepository.findById(dto.getItemId()).orElseThrow(() -> new RuntimeException("아이템을 조회할 수 없습니다."));
 
         Optional<Funding> funding = fundingRepository.findByItemAndUser(itemEntity, userEntity);
@@ -78,9 +80,10 @@ public class FundingService {
         fundingRepository.save(FundingConverter.toEntity(dto, itemEntity, userEntity));
     }
 
+    @Transactional
     public void deleteFunding(Long itemId, UserDetails user) {
         // TODO : 허유진 - 시큐리티 uesr detail 머지 이후 수정
-        User userEntity = userRepository.findByName(user.getUsername());
+        User userEntity = userRepository.findByLoginId(user.getUsername()).orElseThrow(() -> new RuntimeException("아이템을 조회할 수 없습니다."));
         Item itemEntity = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("아이템을 조회할 수 없습니다."));
 
         Funding funding = fundingRepository.findByItemAndUser(itemEntity, userEntity)

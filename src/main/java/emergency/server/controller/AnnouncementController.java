@@ -31,8 +31,10 @@ public class AnnouncementController {
     }
 
     @GetMapping("/{announcementId}")
-    public ApiResponse<?> announcement(@PathVariable String announcementId) {
-        return null;
+    @Operation(summary = "공고 상세조회 API", description = "공고 상세조회 API입니다")
+    public ApiResponse<AnnouncementResponseDTO.AnnouncementDetailsDto> announcement(@PathVariable Long announcementId) {
+        AnnouncementResponseDTO.AnnouncementDetailsDto announcementDetails = announcementService.getAnnouncementDetails(announcementId);
+        return ApiResponse.onSuccess(announcementDetails);
     }
 
 }
