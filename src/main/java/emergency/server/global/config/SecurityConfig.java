@@ -43,15 +43,15 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/join").permitAll()
-                        .requestMatchers("/login").permitAll()
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**").permitAll()
-                        .requestMatchers("/swagger-ui.html").permitAll()
-                        .requestMatchers("/**").permitAll()
-
+                        .requestMatchers("/users/join", "/login").permitAll()
+                        .requestMatchers("/users/check-duplicate").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("GET", "/announcements/**").permitAll()
+                        .requestMatchers("GET", "/facilities/**").permitAll()
+                        .requestMatchers("/users/info", "/users/", "/users/profile-image").authenticated()
+                        .requestMatchers("/funding/**").authenticated()
+                        .requestMatchers("/review/**").authenticated()
                         .anyRequest().authenticated())
-
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
