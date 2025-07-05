@@ -3,20 +3,21 @@ package emergency.server.domain;
 import emergency.server.domain.enums.DisableType;
 import emergency.server.global.data.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @Entity
+@Builder
+@AllArgsConstructor
 @Table(name = "user")
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String userId;
+    private Long userId;
     private String name;
     private String loginId;
     private String password;
@@ -27,4 +28,8 @@ public class User extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id", nullable = false)
     private Region region;
+
+    public void encodePassword(String password) {
+        this.password = password;
+    }
 }
