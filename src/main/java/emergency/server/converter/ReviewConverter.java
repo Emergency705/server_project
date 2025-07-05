@@ -1,6 +1,8 @@
 package emergency.server.converter;
 
+import emergency.server.domain.Item;
 import emergency.server.domain.Review;
+import emergency.server.domain.User;
 import emergency.server.dto.ReviewDto;
 
 import java.util.List;
@@ -18,5 +20,13 @@ public class ReviewConverter {
         return review.stream()
                 .map(ReviewConverter::toResponse)
                 .toList();
+    }
+
+    public static Review toEntity(ReviewDto.SaveRequest dto, User user, Item item) {
+        return Review.builder()
+                .content(dto.getContent())
+                .user(user)
+                .item(item)
+                .build();
     }
 }

@@ -12,4 +12,11 @@ public class ReviewDto {
         private String content;
         private String userName;
     }
+
+    @Data
+    @Builder
+    public static class SaveRequest {
+        private Long itemId;
+        private String content;
+    }
 }
