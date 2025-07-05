@@ -20,7 +20,8 @@ public class Item extends BaseEntity {
     private Long itemId;
     private String name;
     private String description;
-    private String imageUrl;
+    @Lob
+    private String image;
     private Integer startPrice;
     private Integer maxPrice;
     private Integer maxCount;
