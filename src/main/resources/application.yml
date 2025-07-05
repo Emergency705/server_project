@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: ["dev"]
+    active: ["prod"]
 
   sql:
     init:
@@ -18,6 +18,8 @@ spring:
         use_sql_comments: false
         dialect: org.hibernate.dialect.MySQL8Dialect
         hbm2ddl:
+
+          auto: update
         default_batch_fetch_size: 100
 
 jwt:
