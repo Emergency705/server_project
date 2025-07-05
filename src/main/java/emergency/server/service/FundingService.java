@@ -15,12 +15,14 @@ import emergency.server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class FundingService {
 
     private final FundingRepository fundingRepository;
@@ -38,7 +40,7 @@ public class FundingService {
                     int currentCount = i.getFundings().stream()
                             .mapToInt(Funding::getCount)
                             .sum();
-                    int currentPrice = (i.getStartPrice()-i.getMaxCount()) * (currentCount/i.getMaxCount());
+                    int currentPrice = (i.getStartPrice()-i.getMaxPrice()) * currentCount/i.getMaxCount();
                     return ItemConverter.toListResponse(i, currentCount, currentPrice);
                 })
                 .toList();
