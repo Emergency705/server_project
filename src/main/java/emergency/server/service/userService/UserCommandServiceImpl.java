@@ -7,10 +7,10 @@ import emergency.server.dto.UserResponseDto;
 import emergency.server.global.common.apiPayload.code.status.ErrorStatus;
 import emergency.server.global.common.apiPayload.exception.handler.ErrorHandler;
 import emergency.server.validation.JwtUtil;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import emergency.server.repository.UserRepository;
 
@@ -24,8 +24,18 @@ public class UserCommandServiceImpl implements UserCommandService{
     private final JwtUtil jwtUtil;
 
     @Override
+    @Transactional(readOnly = true)
+    public boolean checkLoginIdDuplicate(String loginId) {
+        return userRepository.existsByLoginId(loginId);
+    }
+
+    @Override
     @Transactional
     public User joinUser(UserRequestDto.JoinDto request) {
+        if (userRepository.existsByLoginId(request.getLoginId())) {
+            throw new ErrorHandler(ErrorStatus.DUPLICATE_LOGIN_ID);
+        }
+
         if (StringUtils.hasText(request.getProfileImage())) {
             if (!isValidBase64Image(request.getProfileImage())) {
                 throw new ErrorHandler(ErrorStatus.INVALID_IMAGE_FORMAT);

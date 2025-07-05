@@ -69,4 +69,18 @@ public class UserController {
         userQueryService.deleteProfileImage(request);
         return ApiResponse.onSuccess("프로필 이미지가 삭제되었습니다.");
     }
+
+    @GetMapping("/check-duplicate")
+    @Operation(summary = "로그인 ID 중복 확인 API", description = "로그인 ID의 중복 여부를 확인합니다.")
+    public ApiResponse<UserResponseDto.DuplicateCheckDto> checkLoginIdDuplicate(@RequestParam String loginId) {
+        boolean isDuplicate = userCommandService.checkLoginIdDuplicate(loginId);
+
+        UserResponseDto.DuplicateCheckDto response = UserResponseDto.DuplicateCheckDto.builder()
+                .loginId(loginId)
+                .isDuplicate(isDuplicate)
+                .message(isDuplicate ? "이미 사용 중인 로그인 ID입니다." : "사용 가능한 로그인 ID입니다.")
+                .build();
+
+        return ApiResponse.onSuccess(response);
+    }
 }

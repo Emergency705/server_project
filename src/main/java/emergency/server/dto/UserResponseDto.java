@@ -42,4 +42,14 @@ public class UserResponseDto {
         String regionName;
         String profileImage;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DuplicateCheckDto {
+        private String loginId;
+        private boolean isDuplicate;
+        private String message;
+    }
 }
