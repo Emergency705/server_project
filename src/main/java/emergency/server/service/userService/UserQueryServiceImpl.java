@@ -3,7 +3,6 @@ package emergency.server.service.userService;
 import emergency.server.convertor.UserConvertor;
 import emergency.server.domain.Region;
 import emergency.server.domain.User;
-import emergency.server.domain.enums.DisableType;
 import emergency.server.dtos.UserRequestDto;
 import emergency.server.dtos.UserResponseDto;
 import emergency.server.global.common.apiPayload.code.status.ErrorStatus;
@@ -17,8 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
-import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor

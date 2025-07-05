@@ -1,8 +1,6 @@
 package emergency.server.dtos;
 
-import emergency.server.domain.Region;
 import emergency.server.domain.enums.DisableType;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
