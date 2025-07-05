@@ -1,10 +1,10 @@
 package emergency.server.service.userService;
 
-import emergency.server.convertor.UserConvertor;
+import emergency.server.converter.UserConvertor;
 import emergency.server.domain.Region;
 import emergency.server.domain.User;
-import emergency.server.dtos.UserRequestDto;
-import emergency.server.dtos.UserResponseDto;
+import emergency.server.dto.UserRequestDto;
+import emergency.server.dto.UserResponseDto;
 import emergency.server.global.common.apiPayload.code.status.ErrorStatus;
 import emergency.server.global.common.apiPayload.exception.handler.ErrorHandler;
 import emergency.server.repository.RegionRepository;
@@ -16,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor

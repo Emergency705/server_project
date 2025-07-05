@@ -1,7 +1,7 @@
 package emergency.server.controller;
 
-import emergency.server.dtos.UserRequestDto;
-import emergency.server.dtos.UserResponseDto;
+import emergency.server.dto.UserRequestDto;
+import emergency.server.dto.UserResponseDto;
 import emergency.server.global.common.apiPayload.ApiResponse;
 import emergency.server.service.userService.UserCommandService;
 import io.swagger.v3.oas.annotations.Operation;
