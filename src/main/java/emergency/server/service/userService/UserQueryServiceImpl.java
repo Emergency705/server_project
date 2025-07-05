@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Base64;
 import java.util.Arrays;
 
 @Service
@@ -74,7 +75,82 @@ public class UserQueryServiceImpl implements UserQueryService{
             user.setRegion(region);
         }
 
+        if (updateRequest.getProfileImage() != null) {
+            if (isValidBase64Image(updateRequest.getProfileImage())) {
+                user.setProfileImage(updateRequest.getProfileImage());
+            } else {
+                throw new ErrorHandler(ErrorStatus.INVALID_IMAGE_FORMAT);
+            }
+        }
+
         User updatedUser = userRepository.save(user);
         return UserConvertor.toUserInfoDto(updatedUser);
+    }
+
+    @Override
+    @Transactional
+    public UserResponseDto.UserInfoDto updateProfileImage(HttpServletRequest request, UserRequestDto.UpdateProfileImageDto imageRequest) {
+        Authentication authentication = jwtUtil.extractAuthentication(request);
+        String loginId = authentication.getName();
+
+        User user = userRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.MEMBER_NOT_FOUND));
+
+        if (!isValidBase64Image(imageRequest.getProfileImage())) {
+            throw new ErrorHandler(ErrorStatus.INVALID_IMAGE_FORMAT);
+        }
+
+        user.setProfileImage(imageRequest.getProfileImage());
+        User updatedUser = userRepository.save(user);
+
+        return UserConvertor.toUserInfoDto(updatedUser);
+    }
+
+    @Override
+    @Transactional
+    public void deleteProfileImage(HttpServletRequest request) {
+        Authentication authentication = jwtUtil.extractAuthentication(request);
+        String loginId = authentication.getName();
+
+        User user = userRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.MEMBER_NOT_FOUND));
+
+        user.setProfileImage(null);
+        userRepository.save(user);
+    }
+
+    private boolean isValidBase64Image(String base64Image) {
+        if (!StringUtils.hasText(base64Image)) {
+            return false;
+        }
+
+        try {
+            String base64Data = base64Image;
+            if (base64Image.contains(",")) {
+                String[] parts = base64Image.split(",");
+                if (parts.length != 2) {
+                    return false;
+                }
+
+                String mimeTypePart = parts[0];
+                if (!mimeTypePart.matches("data:image/(jpeg|jpg|png|gif|webp);base64")) {
+                    return false;
+                }
+
+                base64Data = parts[1];
+            }
+
+            Base64.getDecoder().decode(base64Data);
+
+            int maxSizeBytes = 5 * 1024 * 1024; // 5MB
+            byte[] decodedBytes = Base64.getDecoder().decode(base64Data);
+            if (decodedBytes.length > maxSizeBytes) {
+                return false;
+            }
+
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 }

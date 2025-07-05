@@ -23,13 +23,16 @@ public class UserConvertor {
                 .password(request.getPassword())
                 .birth(request.getBirth())
                 .disableType(request.getDisableType())
+                .hardness(request.getHardness())
+                .disable(request.getDisable())
                 .region(region)
+                .profileImage(request.getProfileImage())
                 .build();
     }
 
-    public static UserResponseDto.LoginResultDTO toLoginResultDTO(Long memberId, String accessToken) {
+    public static UserResponseDto.LoginResultDTO toLoginResultDTO(Long userId, String accessToken) {
         return UserResponseDto.LoginResultDTO.builder()
-                .memberId(memberId)
+                .userId(userId)
                 .accessToken(accessToken)
                 .build();
     }
@@ -40,8 +43,11 @@ public class UserConvertor {
                 .name(user.getName())
                 .loginId(user.getLoginId())
                 .birth(user.getBirth())
-                .disableType(user.getDisableType())
+                .disableTypeName(user.getDisableType().getName())
+                .hardnessName(user.getHardness().getName())
+                .disableName(user.getDisable().getName())
                 .regionName(user.getRegion().getName())
+                .profileImage(user.getProfileImage())
                 .build();
     }
 }
