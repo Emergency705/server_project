@@ -15,7 +15,7 @@ public class ItemDto {
     public static class ListResponse {
         private Long id;
         private String name;
-        private String imageUrl;
+        private String image;
         private String description;
         private PlaceType placeType;
         private Integer maxCount;

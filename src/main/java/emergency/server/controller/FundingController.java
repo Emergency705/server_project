@@ -67,7 +67,7 @@ public class FundingController {
         return ApiResponse.onSuccess("save successful");
     }
 
-    @DeleteMapping("/item/{itemId}") // 펀딩 취소하기
+    @DeleteMapping("/item/{itemId}") // 펀딩 취소 하기
     @Operation(summary = "구매 의사 취소(delete funding)")
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200",description = "OK, 성공"),
