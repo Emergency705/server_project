@@ -1,9 +1,9 @@
-package emergency.server.convertor;
+package emergency.server.converter;
 
 import emergency.server.domain.Region;
 import emergency.server.domain.User;
-import emergency.server.dtos.UserRequestDto;
-import emergency.server.dtos.UserResponseDto;
+import emergency.server.dto.UserRequestDto;
+import emergency.server.dto.UserResponseDto;
 
 import java.time.LocalDateTime;
 

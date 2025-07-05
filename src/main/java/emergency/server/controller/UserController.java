@@ -1,9 +1,9 @@
 package emergency.server.controller;
 
-import emergency.server.convertor.UserConvertor;
+import emergency.server.converter.UserConvertor;
 import emergency.server.domain.User;
-import emergency.server.dtos.UserRequestDto;
-import emergency.server.dtos.UserResponseDto;
+import emergency.server.dto.UserRequestDto;
+import emergency.server.dto.UserResponseDto;
 import emergency.server.global.common.apiPayload.ApiResponse;
 import emergency.server.service.userService.UserCommandService;
 import emergency.server.service.userService.UserQueryService;

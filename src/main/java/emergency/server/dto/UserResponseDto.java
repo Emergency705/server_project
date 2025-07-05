@@ -1,4 +1,4 @@
-package emergency.server.dtos;
+package emergency.server.dto;
 
 import emergency.server.domain.enums.DisableType;
 import lombok.Builder;

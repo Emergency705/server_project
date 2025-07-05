@@ -1,7 +1,7 @@
 package emergency.server.service.userService;
 
-import emergency.server.dtos.UserRequestDto;
-import emergency.server.dtos.UserResponseDto;
+import emergency.server.dto.UserRequestDto;
+import emergency.server.dto.UserResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 
 public interface UserQueryService {
