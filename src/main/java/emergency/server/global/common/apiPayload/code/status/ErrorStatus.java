@@ -16,10 +16,13 @@ public enum ErrorStatus implements BaseErrorCode {
     // 멤버 관련 에러
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER4001", "사용자가 없습니다."),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "MEMBER4002", "잘못된 비밀번호입니다."),
+    REGION_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4003","잘못된 지역입니다." ),
+    INVALID_NAME_FORMAT(HttpStatus.BAD_REQUEST, "MEMBER4004", "이름은 공백일 수 없습니다"),
+    INVALID_DISABLE_TYPE(HttpStatus.BAD_REQUEST, "MEMBER4005", "존재하지 않은 장애 유형입니다."),
+    DUPLICATE_LOGIN_ID(HttpStatus.BAD_REQUEST, "MEMBER4006", "이미 사용중인 로그인 ID입니다."),
 
     // tmp
-    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "테스트테스트")
-    ;
+    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "테스트테스트");
 
     private final HttpStatus httpStatus;
     private final String code;
@@ -45,6 +48,5 @@ public enum ErrorStatus implements BaseErrorCode {
                 .build();
     }
 
-    // 일반적 응답
 
 }

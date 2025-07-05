@@ -25,9 +25,18 @@ public class UserRequestDto {
     @Getter
     @Setter
     public static class LoginRequestDTO{
-        @NotBlank(message = "이메일은 필수입니다.")
+        @NotBlank(message = "아이디는 필수입니다.")
         private String loginId;
         @NotBlank(message = "패스워드는 필수입니다.")
         private String password;
+    }
+
+    @Getter
+    @Setter
+    public static class UpdateUserDto {
+        private String name;
+        private LocalDate birth;
+        private DisableType disableType;
+        private Long regionId;
     }
 }

@@ -29,7 +29,6 @@ public class UserCommandServiceImpl implements UserCommandService{
         Region region = regionRepository.findById(request.getRegionId())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 지역입니다."));
 
-
         User newUser = UserConvertor.toUser(request, region);
 
         String encodedPassword = passwordEncoder.encode(request.getPassword());
