@@ -21,7 +21,7 @@ public class ReviewService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void saveReview(ReviewDto.SaveRequest dto, UserDetails user) {
+    public void saveReview(ReviewDto.CreateRequest dto, UserDetails user) {
         User userEntity = userRepository.findByLoginId(user.getUsername())
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 

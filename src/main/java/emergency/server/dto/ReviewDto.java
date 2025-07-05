@@ -15,7 +15,7 @@ public class ReviewDto {
 
     @Data
     @Builder
-    public static class SaveRequest {
+    public static class CreateRequest {
         private Long itemId;
         private String content;
     }

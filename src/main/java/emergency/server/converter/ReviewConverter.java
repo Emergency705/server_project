@@ -22,7 +22,7 @@ public class ReviewConverter {
                 .toList();
     }
 
-    public static Review toEntity(ReviewDto.SaveRequest dto, User user, Item item) {
+    public static Review toEntity(ReviewDto.CreateRequest dto, User user, Item item) {
         return Review.builder()
                 .content(dto.getContent())
                 .user(user)

@@ -1,5 +1,6 @@
 package emergency.server.controller;
 
+import emergency.server.domain.Item;
 import emergency.server.dto.FundingDto;
 import emergency.server.dto.ItemDto;
 import emergency.server.global.common.apiPayload.ApiResponse;
@@ -44,6 +45,16 @@ public class FundingController {
     public ApiResponse<?> itemDetails(@PathVariable("itemId") Long itemId) {
         ItemDto.Response dto = fundingService.getItem(itemId);
         return ApiResponse.onSuccess(dto);
+    }
+
+    @GetMapping("/user") // 내 펀딩 목록 조회
+    @Operation(summary = "내 참여한 펀딩목록 조회(item user list)")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200",description = "OK, 성공"),
+    })
+    public ApiResponse<?> itemDetails(@AuthenticationPrincipal UserDetails user) {
+        List<ItemDto.ListResponse> item = fundingService.getUserItemList(user);
+        return ApiResponse.onSuccess(item);
     }
 
     @PostMapping("/{itemId}") // 펀딩하기

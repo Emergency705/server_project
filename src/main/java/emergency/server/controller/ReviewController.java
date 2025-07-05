@@ -26,7 +26,7 @@ public class ReviewController {
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200",description = "OK, 성공"),
     })
-    public ApiResponse<?> saveReview(@Valid ReviewDto.SaveRequest dto, @AuthenticationPrincipal UserDetails user) {
+    public ApiResponse<?> saveReview(@Valid ReviewDto.CreateRequest dto, @AuthenticationPrincipal UserDetails user) {
         reviewService.saveReview(dto, user);
         return ApiResponse.onSuccess("review save successful");
     }
