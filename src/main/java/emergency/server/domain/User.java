@@ -44,7 +44,7 @@ public class User extends BaseEntity {
     private Region region;
 
     @Lob
-    @Column(name = "profile_image", columnDefinition = "LONGTEXT")
+    @Column(name = "profile_image")
     private String profileImage;
 
     public void encodePassword(String password) {
