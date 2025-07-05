@@ -3,6 +3,7 @@ package emergency.server.domain;
 import emergency.server.global.data.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,4 +25,10 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
+    @Builder
+    public Review(String content, User user, Item item) {
+        this.content = content;
+        this.user = user;
+        this.item = item;
+    }
 }

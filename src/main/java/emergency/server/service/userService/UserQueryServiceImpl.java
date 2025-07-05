@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Base64;
+import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor

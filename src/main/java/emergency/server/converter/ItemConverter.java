@@ -8,7 +8,7 @@ public class ItemConverter {
         return ItemDto.ListResponse.builder()
                 .id(item.getItemId())
                 .name(item.getName())
-                .imageUrl(item.getImageUrl())
+                .image(item.getImage())
                 .description(item.getDescription())
                 .placeType(item.getPlaceType())
                 .maxCount(item.getMaxCount())
@@ -17,17 +17,18 @@ public class ItemConverter {
                 .build();
     }
 
-    public static ItemDto.Response toResponse(Item item, Integer currentCount) {
+    public static ItemDto.Response toResponse(Item item, Integer currentCount, Integer currentPrice) {
         return ItemDto.Response.builder()
                 .id(item.getItemId())
                 .name(item.getName())
                 .description(item.getDescription())
-                .imageUrl(item.getImageUrl())
+                .imageUrl(item.getImage())
                 .startPrice(item.getStartPrice())
                 .maxPrice(item.getMaxPrice())
                 .placeType(item.getPlaceType())
                 .closedDate(item.getClosedDate())
                 .currentCount(currentCount)
+                .currentPrice(currentPrice)
                 .seller(SellerConverter.toResponse(item.getSeller()))
                 .reviews(ReviewConverter.toListResponse(item.getReviews()))
                 .build();

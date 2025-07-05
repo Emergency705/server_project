@@ -15,7 +15,7 @@ public class ItemDto {
     public static class ListResponse {
         private Long id;
         private String name;
-        private String imageUrl;
+        private String image;
         private String description;
         private PlaceType placeType;
         private Integer maxCount;
@@ -36,6 +36,7 @@ public class ItemDto {
         private PlaceType placeType;
         private LocalDate closedDate;
         private Integer currentCount;
+        private Integer currentPrice;
         private SellerDto.ListResponse seller;
         private List<ReviewDto.Response> reviews;
     }
