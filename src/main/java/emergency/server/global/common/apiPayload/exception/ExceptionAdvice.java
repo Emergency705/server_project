@@ -1,6 +1,7 @@
 package emergency.server.global.common.apiPayload.exception;
 
 import emergency.server.global.common.apiPayload.ApiResponse;
+import emergency.server.global.common.apiPayload.code.BaseErrorCode;
 import emergency.server.global.common.apiPayload.code.ErrorReasonDTO;
 import emergency.server.global.common.apiPayload.code.status.ErrorStatus;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,13 +13,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -66,6 +70,44 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                 request,
                 e.getMessage()
         );
+    }
+
+//    @Override
+//    protected ResponseEntity<Object> handleMissingServletRequestParameter(
+//            MissingServletRequestParameterException ex,
+//            HttpHeaders headers,
+//            HttpStatusCode status,
+//            WebRequest request) {
+//
+//        String parameterName = ex.getParameterName();
+//        String message = String.format("필수 요청 파라미터 '%s'가 누락되었습니다.", parameterName);
+//
+//        ApiResponse<Object> body = ApiResponse.onFailure(
+//                ErrorStatus.PARAMETER_NULL.getCode(),
+//                ErrorStatus.PARAMETER_NULL.getMessage(),
+//                message
+//        );
+//
+//        return handleExceptionInternal(ex, body, headers, HttpStatus.BAD_REQUEST, request);
+//    }
+
+
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiResponse<?>> handleEnumTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        if (ex.getRequiredType() != null && ex.getRequiredType().isEnum()) {
+            String message = String.format("잘못된 값 '%s'입니다. 허용된 값: %s",
+                    ex.getValue(),
+                    Arrays.toString(ex.getRequiredType().getEnumConstants())
+            );
+            return ResponseEntity
+                    .badRequest()
+                    .body(ApiResponse.onFailure(ErrorStatus.ENUM_TYPE_ERROR.getCode(), ErrorStatus.ENUM_TYPE_ERROR.getMessage(), message));
+        }
+
+        return ResponseEntity
+                .badRequest()
+                .body(ApiResponse.onFailure(ErrorStatus.TYPE_ERROR.getCode(), ErrorStatus.TYPE_ERROR.getMessage(), null));
     }
 
     @ExceptionHandler(value = GeneralException.class)
