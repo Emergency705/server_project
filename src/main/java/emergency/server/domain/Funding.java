@@ -3,6 +3,7 @@ package emergency.server.domain;
 import emergency.server.global.data.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,5 +24,12 @@ public class Funding extends BaseEntity {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
+    private Integer count;
 
+    @Builder
+    public Funding(User user, Item item, Integer count) {
+        this.user = user;
+        this.item = item;
+        this.count = count;
+    }
 }
