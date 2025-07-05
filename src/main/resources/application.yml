@@ -23,5 +23,5 @@ spring:
 
 jwt:
   secret: "ServerApplication-Secret-Key-For-JWT-Token-Generation-Must-Be-At-Least-256-Bits-Long-For-HS256-Algorithm"
-  access-token-expiration: 3600000
-  refresh-token-expiration: 86400000
+  accessTokenExpiration: 3600000
+  refreshTokenExpiration: 86400000
