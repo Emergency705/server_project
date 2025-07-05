@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
+
 @Service
 @RequiredArgsConstructor
 public class UserQueryServiceImpl implements UserQueryService{

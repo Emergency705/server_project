@@ -1,6 +1,7 @@
 package emergency.server.domain;
 
 import emergency.server.domain.enums.AnnouncementType;
+import emergency.server.domain.enums.Region;
 import emergency.server.domain.enums.Target;
 import emergency.server.global.data.BaseEntity;
 import jakarta.persistence.*;
@@ -19,8 +20,7 @@ public class Announcement extends BaseEntity {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long announcementId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_id", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Region region;
 
     // TODO
