@@ -62,13 +62,13 @@ public class FundingService {
         int currentCount = item.getFundings().stream()
                 .mapToInt(Funding::getCount)
                 .sum();
+        int currentPrice = (item.getStartPrice()-item.getMaxPrice()) * currentCount/item.getMaxCount();
 
-        return ItemConverter.toResponse(item, currentCount);
+        return ItemConverter.toResponse(item, currentCount, currentPrice);
     }
 
     @Transactional
     public void saveFunding(FundingDto.SaveRequest dto, UserDetails user) {
-        // TODO : 허유진 - 시큐리티 uesr detail 머지 이후 수정
         User userEntity = userRepository.findByLoginId(user.getUsername()).orElseThrow(() -> new RuntimeException("사용자를 조회할 수 없습니다."));
         Item itemEntity = itemRepository.findById(dto.getItemId()).orElseThrow(() -> new RuntimeException("아이템을 조회할 수 없습니다."));
 
@@ -82,7 +82,6 @@ public class FundingService {
 
     @Transactional
     public void deleteFunding(Long itemId, UserDetails user) {
-        // TODO : 허유진 - 시큐리티 uesr detail 머지 이후 수정
         User userEntity = userRepository.findByLoginId(user.getUsername()).orElseThrow(() -> new RuntimeException("아이템을 조회할 수 없습니다."));
         Item itemEntity = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("아이템을 조회할 수 없습니다."));
 

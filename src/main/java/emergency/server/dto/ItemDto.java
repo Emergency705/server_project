@@ -36,6 +36,7 @@ public class ItemDto {
         private PlaceType placeType;
         private LocalDate closedDate;
         private Integer currentCount;
+        private Integer currentPrice;
         private SellerDto.ListResponse seller;
         private List<ReviewDto.Response> reviews;
     }

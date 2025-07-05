@@ -17,7 +17,7 @@ public class ItemConverter {
                 .build();
     }
 
-    public static ItemDto.Response toResponse(Item item, Integer currentCount) {
+    public static ItemDto.Response toResponse(Item item, Integer currentCount, Integer currentPrice) {
         return ItemDto.Response.builder()
                 .id(item.getItemId())
                 .name(item.getName())
@@ -28,6 +28,7 @@ public class ItemConverter {
                 .placeType(item.getPlaceType())
                 .closedDate(item.getClosedDate())
                 .currentCount(currentCount)
+                .currentPrice(currentPrice)
                 .seller(SellerConverter.toResponse(item.getSeller()))
                 .reviews(ReviewConverter.toListResponse(item.getReviews()))
                 .build();
