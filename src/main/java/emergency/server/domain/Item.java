@@ -21,7 +21,7 @@ public class Item extends BaseEntity {
     private Integer maxPrice;
     private Integer maxCount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id", nullable = false)
     private Seller seller;
 

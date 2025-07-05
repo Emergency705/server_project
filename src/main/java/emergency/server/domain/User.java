@@ -23,7 +23,7 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private DisableType disableType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id", nullable = false)
     private Region region;
 }
