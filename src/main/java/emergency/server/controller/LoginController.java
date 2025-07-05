@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class LoginController {
 
-    @PostMapping("/signup")
-    public ApiResponse<?> signup() {
+    @PostMapping("/login")
+    public ApiResponse<?> login() {
         return null;
     }
 
