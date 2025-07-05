@@ -1,6 +1,8 @@
 package emergency.server.dto;
 
+import emergency.server.domain.enums.Disable;
 import emergency.server.domain.enums.DisableType;
+import emergency.server.domain.enums.HardNess;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +19,10 @@ public class UserRequestDto {
         String password;
         LocalDate birth;
         DisableType disableType;
+        HardNess hardness;
+        Disable disable;
         Long regionId;
+        String profileImage;
     }
 
     @Getter
@@ -35,6 +40,16 @@ public class UserRequestDto {
         private String name;
         private LocalDate birth;
         private DisableType disableType;
+        private HardNess hardness;
+        private Disable disable;
         private Long regionId;
+        private String profileImage;
+    }
+
+    @Getter
+    @Setter
+    public static class UpdateProfileImageDto {
+        @NotBlank(message = "프로필 이미지는 필수입니다.")
+        private String profileImage;
     }
 }
