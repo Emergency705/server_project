@@ -26,8 +26,12 @@ public enum ErrorStatus implements BaseErrorCode {
     TYPE_ERROR(HttpStatus.BAD_REQUEST, "COMMON402", "올바른 type을 입력하세요"),
     PARAMETER_NULL(HttpStatus.BAD_REQUEST, "COMMON403", "파라미터 누락"),
 
-    ANNOUNCEMENT_NULL(HttpStatus.BAD_REQUEST, "ANNOUNCEMENT401", "공고 유형 값이 필요합니다"),
+
+
+    // ANNOUNCEMENT
+    ANNOUNCEMENT_NULL(HttpStatus.BAD_REQUEST, "ANNOUNCEMENT401", "공고 식별자 값이 필요합니다"),
     ANNOUNCEMENT_INVALID_TYPE(HttpStatus.BAD_REQUEST, "ANNOUNCEMENT402", "올바르지 않은 공고 유형입니다"),
+    ANNOUNCEMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "ANNOUNCEMENT403", "존재하지 않는 공고입니다"),
 
 
     // tmp
