@@ -32,4 +32,20 @@ public class AnnouncementConverter {
 
     }
 
+    // Announcement -> AnnouncementDetailsDto
+    public static AnnouncementResponseDTO.AnnouncementDetailsDto toAnnouncementDetailsDto(Announcement announcement) {
+        return AnnouncementResponseDTO.AnnouncementDetailsDto.builder()
+                .id(announcement.getAnnouncementId())
+                .infoType(announcement.getType().getKorean())
+                .region(announcement.getRegion().getName())
+                .target(announcement.getTarget().getKorean())
+                .remainPeriod((int)ChronoUnit.DAYS.between(LocalDate.now(), announcement.getCloseDate()))
+                .title(announcement.getTitle())
+                .institute(announcement.getInstitution())
+                .openDate(announcement.getOpenDate())
+                .content(announcement.getContent())
+                .build();
+
+    }
+
 }
