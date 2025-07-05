@@ -5,12 +5,15 @@ import emergency.server.domain.Announcement;
 import emergency.server.domain.enums.AnnouncementType;
 import emergency.server.domain.enums.Target;
 import emergency.server.dto.AnnouncementResponseDTO;
+import emergency.server.global.common.apiPayload.code.status.ErrorStatus;
+import emergency.server.global.common.apiPayload.exception.handler.ErrorHandler;
 import emergency.server.repository.AnnouncementRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +34,18 @@ public class AnnouncementService {
 
         // 변환
         return AnnouncementConverter.toAnnouncementDtoList(findByFilter);
+    }
+
+    public AnnouncementResponseDTO.AnnouncementDetailsDto getAnnouncementDetails(Long announcementId) {
+
+        if(announcementId == null){
+            throw new ErrorHandler(ErrorStatus.ANNOUNCEMENT_NULL);
+        }
+
+        Announcement announcement = announcementRepository.findById(announcementId)
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.ANNOUNCEMENT_NOT_FOUND));
+
+        return AnnouncementConverter.toAnnouncementDetailsDto(announcement);
     }
 
 }

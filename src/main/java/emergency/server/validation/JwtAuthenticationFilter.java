@@ -1,6 +1,5 @@
 package emergency.server.validation;
 
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -34,12 +34,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = extractTokenFromRequest(request);
 
             if (token != null && jwtUtil.validateToken(token)) {
+                // 토큰에서 loginId 추출 (변수명을 loginId로 통일)
+                String loginId = jwtUtil.extractUsername(token);
 
-                String userId = jwtUtil.extractUsername(token);
-                if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    UserDetails userDetails = userDetailService.loadUserByUsername(userId);
+                if (loginId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    UserDetails userDetails = userDetailService.loadUserByUsername(loginId);
+
                     if (jwtUtil.validateToken(token, userDetails.getUsername())) {
-                        //실제 로그인 검증 구현 부분
+                        // 실제 로그인 검증 구현 부분
                         UsernamePasswordAuthenticationToken authentication =
                                 new UsernamePasswordAuthenticationToken(
                                         userDetails,
@@ -53,7 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                        log.debug("사용자 '{}' 인증 완료", userId);
+                        log.debug("사용자 '{}' 인증 완료", loginId);
                     }
                 }
             }

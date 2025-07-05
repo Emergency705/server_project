@@ -20,4 +20,18 @@ public class AnnouncementResponseDTO {
         LocalDate openDate;
     }
 
+    @Getter
+    @Builder
+    public static class AnnouncementDetailsDto{
+        Long id;
+        String infoType;
+        String region;
+        String target;
+        Integer remainPeriod;
+        String title;
+        String institute;
+        String content;
+        LocalDate openDate;
+    }
+
 }
