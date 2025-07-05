@@ -1,4 +1,4 @@
-package emergency.server.domain;
+package emergency.server.domain.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,5 +1,6 @@
 package emergency.server.domain;
 
+import emergency.server.domain.enums.DisableType;
 import emergency.server.global.data.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
