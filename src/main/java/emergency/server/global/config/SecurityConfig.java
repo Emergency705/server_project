@@ -5,6 +5,7 @@ import emergency.server.validation.UserDetailServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -46,8 +47,10 @@ public class SecurityConfig {
                         .requestMatchers("/users/join", "/login").permitAll()
                         .requestMatchers("/users/check-duplicate").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
-                        .requestMatchers("GET", "/announcements/**").permitAll()
-                        .requestMatchers("GET", "/facilities/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/announcements/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/facilities/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/funding/").permitAll()           // 펀딩 목록 조회
+                        .requestMatchers(HttpMethod.GET, "/funding/{itemId}").permitAll()   // 펀딩 상세 조회
                         .requestMatchers("/users/info", "/users/", "/users/profile-image").authenticated()
                         .requestMatchers("/funding/**").authenticated()
                         .requestMatchers("/review/**").authenticated()
