@@ -1,6 +1,7 @@
 package emergency.server.controller;
 
 import emergency.server.domain.enums.AnnouncementType;
+import emergency.server.domain.enums.Region;
 import emergency.server.domain.enums.Target;
 import emergency.server.dto.AnnouncementResponseDTO;
 import emergency.server.global.common.apiPayload.ApiResponse;
@@ -23,10 +24,10 @@ public class AnnouncementController {
     public ApiResponse<List<AnnouncementResponseDTO.AnnouncementListDto>> announcementList(
             @RequestParam AnnouncementType type,
             @RequestParam(required = false) Boolean isRecruiting,
-            @RequestParam(required = false) Long regionId,
+            @RequestParam(required = false) Region region,
             @RequestParam(required = false) Target target) {
         List<AnnouncementResponseDTO.AnnouncementListDto> announcementList
-                = announcementService.getAnnouncementList(type, isRecruiting, regionId, target);
+                = announcementService.getAnnouncementList(type, isRecruiting, region, target);
         return ApiResponse.onSuccess(announcementList);
     }
 

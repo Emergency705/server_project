@@ -22,6 +22,9 @@ public enum ErrorStatus implements BaseErrorCode {
     INVALID_DISABLE_TYPE(HttpStatus.BAD_REQUEST, "MEMBER4005", "존재하지 않은 장애 유형입니다."),
     DUPLICATE_LOGIN_ID(HttpStatus.BAD_REQUEST, "MEMBER4006", "이미 사용중인 로그인 ID입니다."),
 
+    INVALID_IMAGE_FORMAT(HttpStatus.BAD_REQUEST, "IMAGE4001", "올바르지 않은 이미지 형식입니다."),
+    IMAGE_TOO_LARGE(HttpStatus.BAD_REQUEST, "IMAGE4002", "이미지 크기가 너무 큽니다. (최대 5MB)"),
+
     ENUM_TYPE_ERROR(HttpStatus.BAD_REQUEST, "COMMON401", "올바른 enum 값이 필요합니다"),
     TYPE_ERROR(HttpStatus.BAD_REQUEST, "COMMON402", "올바른 type을 입력하세요"),
     PARAMETER_NULL(HttpStatus.BAD_REQUEST, "COMMON403", "파라미터 누락"),

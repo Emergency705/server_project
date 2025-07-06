@@ -1,6 +1,5 @@
 package emergency.server.converter;
 
-import emergency.server.domain.Region;
 import emergency.server.domain.User;
 import emergency.server.dto.UserRequestDto;
 import emergency.server.dto.UserResponseDto;
@@ -16,20 +15,23 @@ public class UserConvertor {
                 .build();
     }
 
-    public static User toUser(UserRequestDto.JoinDto request, Region region) {
+    public static User toUser(UserRequestDto.JoinDto request) {
         return User.builder()
                 .name(request.getName())
                 .loginId(request.getLoginId())
                 .password(request.getPassword())
                 .birth(request.getBirth())
                 .disableType(request.getDisableType())
-                .region(region)
+                .hardness(request.getHardness())
+                .disable(request.getDisable())
+                .region(request.getRegion())
+                .profileImage(request.getProfileImage())
                 .build();
     }
 
-    public static UserResponseDto.LoginResultDTO toLoginResultDTO(Long memberId, String accessToken) {
+    public static UserResponseDto.LoginResultDTO toLoginResultDTO(Long userId, String accessToken) {
         return UserResponseDto.LoginResultDTO.builder()
-                .memberId(memberId)
+                .userId(userId)
                 .accessToken(accessToken)
                 .build();
     }
@@ -40,8 +42,11 @@ public class UserConvertor {
                 .name(user.getName())
                 .loginId(user.getLoginId())
                 .birth(user.getBirth())
-                .disableType(user.getDisableType())
-                .regionName(user.getRegion().getName())
+                .disableTypeName(user.getDisableType().getName())
+                .hardnessName(user.getHardness().getName())
+                .disableName(user.getDisable().getName())
+                .regionName(user.getRegion().getKoreanName())
+                .profileImage(user.getProfileImage())
                 .build();
     }
 }

@@ -1,6 +1,5 @@
 package emergency.server.dto;
 
-import emergency.server.domain.enums.DisableType;
 import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +23,7 @@ public class UserResponseDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class LoginResultDTO {
-        Long memberId;
+        Long userId;
         String accessToken;
     }
 
@@ -37,7 +36,20 @@ public class UserResponseDto {
         String name;
         String loginId;
         LocalDate birth;
-        DisableType disableType;
+        String disableTypeName;
+        String hardnessName;
+        String disableName;
         String regionName;
+        String profileImage;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DuplicateCheckDto {
+        private String loginId;
+        private boolean isDuplicate;
+        private String message;
     }
 }

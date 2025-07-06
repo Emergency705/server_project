@@ -1,6 +1,9 @@
 package emergency.server.dto;
 
+import emergency.server.domain.enums.Disable;
 import emergency.server.domain.enums.DisableType;
+import emergency.server.domain.enums.HardNess;
+import emergency.server.domain.enums.Region;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +20,10 @@ public class UserRequestDto {
         String password;
         LocalDate birth;
         DisableType disableType;
-        Long regionId;
+        HardNess hardness;
+        Disable disable;
+        Region region;
+        String profileImage;
     }
 
     @Getter
@@ -32,9 +38,18 @@ public class UserRequestDto {
     @Getter
     @Setter
     public static class UpdateUserDto {
-        private String name;
-        private LocalDate birth;
-        private DisableType disableType;
-        private Long regionId;
+        String name;
+        LocalDate birth;
+        DisableType disableType;
+        HardNess hardness;
+        Disable disable;
+        Region region;
+        String profileImage;
+    }
+
+    @Getter
+    @Setter
+    public static class UpdateProfileImageDto {
+        String profileImage;
     }
 }
