@@ -5,6 +5,8 @@ import emergency.server.domain.Item;
 import emergency.server.domain.Review;
 import emergency.server.domain.User;
 import emergency.server.dto.ReviewDto;
+import emergency.server.global.common.apiPayload.code.status.ErrorStatus;
+import emergency.server.global.common.apiPayload.exception.handler.ErrorHandler;
 import emergency.server.repository.ItemRepository;
 import emergency.server.repository.ReviewRepository;
 import emergency.server.repository.UserRepository;
@@ -26,10 +28,10 @@ public class ReviewService {
     @Transactional
     public void saveReview(ReviewDto.CreateRequest dto, UserDetails user) {
         User userEntity = userRepository.findByLoginId(user.getUsername())
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
         Item itemEntity = itemRepository.findById(dto.getItemId())
-                .orElseThrow(() -> new RuntimeException("아이템을 찾을 수 없습니다."));
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.ITEM_NOT_FOUND));
 
         reviewRepository.save(ReviewConverter.toEntity(dto, userEntity, itemEntity));
     }
@@ -37,7 +39,7 @@ public class ReviewService {
     @Transactional(readOnly = true)
     public List<Review> getReviewsByItemId(Long itemId) {
         Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new RuntimeException("아이템을 찾을 수 없습니다."));
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.ITEM_NOT_FOUND));
 
         return reviewRepository.findAllByItem(item);
     }

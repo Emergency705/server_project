@@ -15,6 +15,8 @@ public class Review extends BaseEntity {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long reviewId;
+
+    @Column(length = 500)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

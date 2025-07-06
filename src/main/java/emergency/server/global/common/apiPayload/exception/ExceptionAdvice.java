@@ -68,6 +68,27 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         );
     }
 
+//    @Override
+//    protected ResponseEntity<Object> handleMissingServletRequestParameter(
+//            MissingServletRequestParameterException ex,
+//            HttpHeaders headers,
+//            HttpStatusCode status,
+//            WebRequest request) {
+//
+//        String parameterName = ex.getParameterName();
+//        String message = String.format("필수 요청 파라미터 '%s'가 누락되었습니다.", parameterName);
+//
+//        ApiResponse<Object> body = ApiResponse.onFailure(
+//                ErrorStatus.PARAMETER_NULL.getCode(),
+//                ErrorStatus.PARAMETER_NULL.getMessage(),
+//                message
+//        );
+//
+//        return handleExceptionInternal(ex, body, headers, HttpStatus.BAD_REQUEST, request);
+//    }
+
+
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiResponse<?>> handleEnumTypeMismatch(MethodArgumentTypeMismatchException ex) {
         if (ex.getRequiredType() != null && ex.getRequiredType().isEnum()) {

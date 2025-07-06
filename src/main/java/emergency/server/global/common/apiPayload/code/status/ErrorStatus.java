@@ -45,6 +45,11 @@ public enum ErrorStatus implements BaseErrorCode {
     ANNOUNCEMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "ANNOUNCEMENT403", "존재하지 않는 공고입니다"),
 
 
+    // Funding
+    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "FUNDING4001", "아이템을 찾을 수 없습니다."),
+    FUNDING_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "FUNDING4002", "이미 펀딩이 존재합니다."),
+    FUNDING_NOT_FOUND(HttpStatus.NOT_FOUND, "FUNDING4003", "펀딩을 찾을 수 없습니다."),
+
     // tmp
     TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "테스트테스트"),
     _BAD_REQUEST(HttpStatus.BAD_REQUEST, "COMMON400", "잘못된 요청입니다.");
