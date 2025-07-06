@@ -34,7 +34,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = extractTokenFromRequest(request);
 
             if (token != null && jwtUtil.validateToken(token)) {
-                // 토큰에서 loginId 추출 (변수명을 loginId로 통일)
                 String loginId = jwtUtil.extractUsername(token);
 
                 if (loginId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -74,5 +73,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         return null;
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+
+        return path.equals("/login") ||
+                path.equals("/users/join") ||
+                path.equals("/users/check-duplicate") ||
+                path.startsWith("/swagger-ui") ||
+                path.startsWith("/v3/api-docs") ||
+                path.equals("/swagger-ui.html") ||
+                path.startsWith("/facilities") ||
+                path.startsWith("/announcements") ||
+                path.startsWith("/funding");
     }
 }
