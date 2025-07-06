@@ -18,15 +18,21 @@ public class Item extends BaseEntity {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long itemId;
+    @Column(nullable = false, length = 50)
     private String name;
+    @Column(length = 200)
     private String description;
     @Lob
     private String image;
+    @Column(nullable = false)
     private Integer startPrice;
+    @Column(nullable = false)
     private Integer maxPrice;
+    @Column(nullable = false)
     private Integer maxCount;
     @Enumerated(EnumType.STRING)
     private PlaceType placeType;
+    @Column(nullable = false)
     private LocalDate closedDate;
 
 

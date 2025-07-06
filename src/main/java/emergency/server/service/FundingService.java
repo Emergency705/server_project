@@ -9,6 +9,8 @@ import emergency.server.domain.Item;
 import emergency.server.domain.User;
 import emergency.server.dto.FundingDto;
 import emergency.server.dto.ItemDto;
+import emergency.server.global.common.apiPayload.code.status.ErrorStatus;
+import emergency.server.global.common.apiPayload.exception.handler.ErrorHandler;
 import emergency.server.repository.FundingRepository;
 import emergency.server.repository.ItemRepository;
 import emergency.server.repository.UserRepository;
@@ -28,7 +30,6 @@ public class FundingService {
     private final FundingRepository fundingRepository;
     private final ItemRepository itemRepository;
 
-    // TODO : 허유진 - 시큐리티 uesr detail 머지 이후 삭제
     /**
      * 아이템 목록 조회
      * @return List<ItemDto.ListResponse>
@@ -58,7 +59,7 @@ public class FundingService {
     @Transactional(readOnly = true)
     public ItemDto.Response getItem(Long id) {
         Item item = itemRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Item not found with id: " + id));
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.ITEM_NOT_FOUND));
 
         int currentCount = item.getFundings().stream()
                 .mapToInt(Funding::getCount)
@@ -70,7 +71,8 @@ public class FundingService {
 
     // 내 펀딩 목록 조회
     public List<ItemDto.ListResponse> getUserItemList(UserDetails user) {
-        User userEntity = userRepository.findByLoginId(user.getUsername()).orElseThrow(() -> new RuntimeException("사용자를 조회할 수 없습니다."));
+        User userEntity = userRepository.findByLoginId(user.getUsername())
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
         List<Item> items = itemRepository.findByUser(userEntity.getLoginId()).stream().toList();
 
@@ -88,12 +90,14 @@ public class FundingService {
 
     @Transactional
     public void saveFunding(FundingDto.SaveRequest dto, UserDetails user) {
-        User userEntity = userRepository.findByLoginId(user.getUsername()).orElseThrow(() -> new RuntimeException("사용자를 조회할 수 없습니다."));
-        Item itemEntity = itemRepository.findById(dto.getItemId()).orElseThrow(() -> new RuntimeException("아이템을 조회할 수 없습니다."));
+        User userEntity = userRepository.findByLoginId(user.getUsername())
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.MEMBER_NOT_FOUND));
+        Item itemEntity = itemRepository.findById(dto.getItemId())
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.ITEM_NOT_FOUND));
 
         Optional<Funding> funding = fundingRepository.findByItemAndUser(itemEntity, userEntity);
         if (funding.isPresent()) {
-            throw new RuntimeException("이미 펀딩한 아이템입니다.");
+            throw new ErrorHandler(ErrorStatus.FUNDING_ALREADY_EXISTS);
         }
 
         fundingRepository.save(FundingConverter.toEntity(dto, itemEntity, userEntity));
@@ -101,11 +105,13 @@ public class FundingService {
 
     @Transactional
     public void deleteFunding(Long itemId, UserDetails user) {
-        User userEntity = userRepository.findByLoginId(user.getUsername()).orElseThrow(() -> new RuntimeException("아이템을 조회할 수 없습니다."));
-        Item itemEntity = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("아이템을 조회할 수 없습니다."));
+        User userEntity = userRepository.findByLoginId(user.getUsername())
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.MEMBER_NOT_FOUND));
+        Item itemEntity = itemRepository.findById(itemId)
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.ITEM_NOT_FOUND));
 
         Funding funding = fundingRepository.findByItemAndUser(itemEntity, userEntity)
-                .orElseThrow(() -> new RuntimeException("펀딩 내역이 존재하지 않습니다."));
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.FUNDING_NOT_FOUND));
 
         fundingRepository.delete(funding);
     }

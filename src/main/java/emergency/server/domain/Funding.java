@@ -24,6 +24,7 @@ public class Funding extends BaseEntity {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
+    @Column(nullable = false)
     private Integer count;
 
     @Builder

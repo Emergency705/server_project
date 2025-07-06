@@ -57,12 +57,12 @@ public class FundingController {
         return ApiResponse.onSuccess(item);
     }
 
-    @PostMapping("/{itemId}") // 펀딩하기
+    @PostMapping("/") // 펀딩하기
     @Operation(summary = "구매 의사 등록(create funding)")
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200",description = "OK, 성공"),
     })
-    public ApiResponse<?> fund(@Valid FundingDto.SaveRequest dto, @AuthenticationPrincipal UserDetails user) {
+    public ApiResponse<?> fund( @RequestBody @Valid FundingDto.SaveRequest dto, @AuthenticationPrincipal UserDetails user) {
         fundingService.saveFunding(dto, user);
         return ApiResponse.onSuccess("save successful");
     }
