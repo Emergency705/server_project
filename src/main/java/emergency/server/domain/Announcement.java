@@ -24,21 +24,29 @@ public class Announcement extends BaseEntity {
     private Region region;
 
     // TODO
+    @Column(nullable = false, length = 30)
     private String title;
 
+    @Column(nullable = false, length = 100)
     private String content;
 
+    @Column(nullable = false, length = 25)
     private String institution;
 
+    @Column(nullable = false)
     private LocalDate openDate;
 
+    @Column(nullable = false)
     private LocalDate closeDate;
 
+    @Column(nullable = false)
     private Boolean isRecruiting;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Target target;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AnnouncementType type;
 
