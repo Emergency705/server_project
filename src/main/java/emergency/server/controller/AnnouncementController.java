@@ -20,7 +20,7 @@ public class AnnouncementController {
     private final AnnouncementService announcementService;
 
     @GetMapping ("/")// 모집공고 리스트 조회
-    @Operation(summary = "홈화면 공고 리스트 조회 API", description = "type은 필수, 그 외의 사항들은 필수값이 아닙니다")
+    @Operation(summary = "홈화면 공고 리스트 조회 API", description = "type은 필수.<br> 그 외의 필터링 처리하지 않습니다.")
     public ApiResponse<List<AnnouncementResponseDTO.AnnouncementListDto>> announcementList(
             @RequestParam AnnouncementType type,
             @RequestParam(required = false) Boolean isRecruiting,

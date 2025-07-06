@@ -19,20 +19,28 @@ public class Facility extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 25)
     private String name;
 
+    @Column(nullable = false)
     private Boolean isOpen;
 
     @Enumerated(EnumType.STRING)
     private FacilityType type;
 
+    @Column(nullable = false)
     private LocalTime weekdayStartTime;
+    @Column(nullable = false)
     private LocalTime weekdayEndTime;
+    @Column(nullable = false)
     private LocalTime weekendStartTime;
+    @Column(nullable = false)
     private LocalTime weekendEndTime;
 
+    @Column(nullable = false, length = 12)
     private String phone;
 
+    @Column(nullable = false, length = 200)
     private String website;
 
 
